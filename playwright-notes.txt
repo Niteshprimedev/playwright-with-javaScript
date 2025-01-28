@@ -1,0 +1,6 @@
+Summary:
+
+- Assertions is how you determine the failure and success of your test cases;
+- Locator API with css selectors like (#id, .class, [attribute], and text) & 
+- the methods like .check(), .uncheck(), .click(), .fill(), .textContent()
+
