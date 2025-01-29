@@ -64,7 +64,7 @@ async function cbFillForm({ page }){
     await console.log("isPageClosed?", isPageClosed);
 }
 
-test.only('Sec-4 Form Validation', loginFormValidation);
+test('Sec-4 Form Validation', loginFormValidation);
 
 async function loginFormValidation({ page }){
     const userEmail = page.locator('input#email');
@@ -116,7 +116,28 @@ async function loginFormValidation({ page }){
     // Login the with the id = login;
     await loginBtn.click();
 
-    await page.goto('');
+    // Could not login the E-commerce website; so starting a new test case
 }
 
-// test.only('Sec-4 Working with Multiple Elements', )
+test.only('Sec-4 Working with Multiple Elements', cbMultipleWebElements);
+
+async function cbMultipleWebElements({ page }){
+
+    // Visit the amazong web page url;
+    await page.goto('https://www.amazon.in/ref=nav_logo');
+
+    // Select the Electronics link element and click on it using getByRole() locator API method
+    await page.getByRole('link', { name: 'Electronics' }).click();
+
+    // Select the Gaming Laptops link element and click on it using id locator;
+    await page.locator('#sobe_d_b_ms_7_1').click();
+
+    // Select the HP Smart Choice Omen Laptop div element using class locator;
+    for(let nthIdx = 0; nthIdx < 12; nthIdx++){
+        const laptopHeadingTxt = await page.locator('.a-section.a-spacing-small.puis-padding-left-small.puis-padding-right-small h2.a-size-base-plus.a-spacing-none.a-color-base.a-text-normal').nth(nthIdx).textContent();
+
+        console.log(`This is ${nthIdx + 1}th Element: ${laptopHeadingTxt}`);
+    }
+    
+    console.log('Got the laptop Title successfully');
+}   
