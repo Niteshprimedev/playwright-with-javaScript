@@ -2,8 +2,9 @@
 // Import test object from the playwright module;
 const { test, expect } = require('@playwright/test');
 
+// TC_01 Check Google Webpage Title
 // Writing your first test with name and a callback function
-test('Check Google Title', callbackFunctionTest1);
+test('sec-3 Check Google Title', callbackFunctionTest1);
 
 // Test 1 callbackFunction;
 async function callbackFunctionTest1({ browser }){
@@ -24,11 +25,12 @@ async function callbackFunctionTest1({ browser }){
     console.log("All went well and executed step by step i.e synchronously");
 }
 
+// TC_02 Print Leetcode Username
 // Writing second test case;
-test('Select Playwright Site Heading', selectPlaywrightDevHeading);
+test('sec-4 Print Leetcode Username', printLeetcodeUsername);
 
 //
-async function selectPlaywrightDevHeading({ page }) {
+async function printLeetcodeUsername({ page }) {
     // visit page url or website;
     await page.goto("https://leetcode.com/u/niteshprimedev/");
 
@@ -41,9 +43,10 @@ async function selectPlaywrightDevHeading({ page }) {
     console.log("Hellow World");
 }
 
-test('Fill Form', cbFillForm);
+// TC_03 Fill the Rahul Shetty Login Form
+test('sec-4 Fill Login Form', cbFillLoginForm);
 
-async function cbFillForm({ page }){
+async function cbFillLoginForm({ page }){
     // Visit page url or website
     await page.goto("https://sso.teachable.com/secure/146684/identity/sign_up/otp");
 
@@ -64,6 +67,7 @@ async function cbFillForm({ page }){
     await console.log("isPageClosed?", isPageClosed);
 }
 
+// TC_04 Login Form Validations
 test('Sec-4 Form Validation', loginFormValidation);
 
 async function loginFormValidation({ page }){
@@ -119,7 +123,8 @@ async function loginFormValidation({ page }){
     // Could not login the E-commerce website; so starting a new test case
 }
 
-test.only('Sec-4 Working with Multiple Elements', cbMultipleWebElements);
+// TC_05 Working with Multiple Web Elements
+test('Sec-4 Working with Multiple Elements', cbMultipleWebElements);
 
 async function cbMultipleWebElements({ page }){
 
@@ -132,12 +137,62 @@ async function cbMultipleWebElements({ page }){
     // Select the Gaming Laptops link element and click on it using id locator;
     await page.locator('#sobe_d_b_ms_7_1').click();
 
-    // Select the HP Smart Choice Omen Laptop div element using class locator;
+    // Select All the Laptops titles and print them using class locator;
     for(let nthIdx = 0; nthIdx < 12; nthIdx++){
         const laptopHeadingTxt = await page.locator('.a-section.a-spacing-small.puis-padding-left-small.puis-padding-right-small h2.a-size-base-plus.a-spacing-none.a-color-base.a-text-normal').nth(nthIdx).textContent();
 
         console.log(`This is ${nthIdx + 1}th Element: ${laptopHeadingTxt}`);
     }
     
-    console.log('Got the laptop Title successfully');
+    console.log('Got the laptop Titles successfully');
 }   
+
+// TC_06 Working with List of Elements;
+test('sec-4 Working with Elements List', cbWorkingWithElementList);
+
+async function cbWorkingWithElementList({ page }){
+    // Visit the Amazon Home page or url
+    await page.goto('https://www.amazon.in/ref=nav_logo');
+
+    // Visit the Electronics Page with the link text = Electronics
+    await page.getByRole('link', { name: 'Electronics' }).click();
+    
+    // Visit the Gaming Laptops Page with the id = sobe_d_b_ms_7_1
+    await page.locator('#sobe_d_b_ms_7_1').click();
+    
+    // Select All the Laptops titles and print them using class locator;
+    const allLaptopTitlesEls = await page.locator('.a-section.a-spacing-small.puis-padding-left-small.puis-padding-right-small h2.a-size-base-plus.a-spacing-none.a-color-base.a-text-normal');
+
+    console.log(await allLaptopTitlesEls.nth(8).textContent());
+    const laptopTitlesList = await allLaptopTitlesEls.allTextContents();
+
+    console.log(laptopTitlesList);
+    console.log('Test case 06 is successful');
+}   
+
+// TC_07 Working with Playwright's Wait Mechanisms;
+test.only('sec-4 Playwright Wait Mechanism', cbPlaywrightWaitMechanism);
+
+async function cbPlaywrightWaitMechanism({ page }){
+    // Visit the Amazon Home page or url
+    await page.goto('https://www.amazon.in/ref=nav_logo');
+
+    // Visit the Electronics Page with the link text = Electronics
+    await page.getByRole('link', { name: 'Electronics' }).click();
+    
+    // Visit the Gaming Laptops Page with the id = sobe_d_b_ms_7_1
+    await page.locator('#sobe_d_b_ms_7_1').click();
+
+    const allLaptopTitlesEls = await page.locator('.a-section.a-spacing-small.puis-padding-left-small.puis-padding-right-small h2.a-size-base-plus.a-spacing-none.a-color-base.a-text-normal');
+
+    // Wait Meachnism Methods;
+    // await page.waitForLoadState('networkidle'); // we're not hitting the network state;
+    await page.waitForLoadState('load');
+
+    // Or Wait For method but it works for only one element;
+    // await allLaptopTitlesEls.waitFor();
+    const laptopTitlesListArr = await allLaptopTitlesEls.allTextContents();
+
+    console.log(laptopTitlesListArr);
+    console.log('Test Case 07 is successful');
+}
